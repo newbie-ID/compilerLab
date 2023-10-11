@@ -1,0 +1,14 @@
+const a=36;
+var c,d;
+procedure p;
+begin
+var g;
+g:=1234567890000000;
+write(g);
+end;
+begin
+read(c,d);
+if c<=d then c:=a;
+write(c,d);
+call p;
+    end.
