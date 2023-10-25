@@ -1,10 +1,12 @@
 const a=36;
-var c,d;
+var c,d,k;
 procedure p;
+procedure f;
 begin
 var g;
 g:=1234567890000000;
 write(g);
+write(k);
 end;
 begin
 read(c,d);

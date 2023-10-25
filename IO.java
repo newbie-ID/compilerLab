@@ -10,10 +10,10 @@ public class IO {
     static String read() throws Exception {
         //读取直到读到空行，并把空格删除返回没有换行的字符串
         String str = "";
-        BufferedReader bf = new BufferedReader(new FileReader("./in"));
+        BufferedReader bf = new BufferedReader(new FileReader("code/in"));
         String temp = bf.readLine();
-        while (temp!= null && temp.length() != 0) {
-            str = str.concat(temp+" ");
+        while (temp != null && temp.length() != 0) {
+            str = str.concat(temp + " ");
             temp = bf.readLine();
         }
         return str;
@@ -21,7 +21,7 @@ public class IO {
 
 
     public static void writeToFile(String str) throws IOException {
-        FileWriter fw = new FileWriter("output",true);
+        FileWriter fw = new FileWriter("code/output", true);
         //将这个普通的FileWriter对象传递给BufferedWriter构造方法即可
         BufferedWriter bw = new BufferedWriter(fw);
         //后面bw的时候和fw没有区别
