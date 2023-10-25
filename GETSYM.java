@@ -36,7 +36,7 @@ public abstract class GETSYM {
         SYM.put("read", "readsym");
         SYM.put("then", "thensym");
 
-        FileWriter fw = new FileWriter("./code/output", false);
+        FileWriter fw = new FileWriter("./code/compile", false);
         //将这个普通的FileWriter对象传递给BufferedWriter构造方法即可
         BufferedWriter bw = new BufferedWriter(fw);
         //后面bw的时候和fw没有区别
@@ -100,14 +100,14 @@ public abstract class GETSYM {
                     } else if (isNew && symTable.get(sym) == null) {
                         // 定义新标识符了
                         if (isConst) {
-                            IO.writeToFile(sym + ":标识符const");
-                            symTable.put(sym, sym + ":标识符const");
+                            IO.writeToFile(sym + ":const");
+                            symTable.put(sym, sym + ":const");
                         } else if (isVar) {
-                            IO.writeToFile(sym + ":标识符var");
-                            symTable.put(sym, sym + ":标识符var");
+                            IO.writeToFile(sym + ":var");
+                            symTable.put(sym, sym + ":var");
                         } else if (isPro) {
-                            IO.writeToFile(sym + ":标识符procedure");
-                            symTable.put(sym, sym + ":标识符procedure");
+                            IO.writeToFile(sym + ":procedure");
+                            symTable.put(sym, sym + ":procedure");
                         }
                         if (sym.equals(";")) {
                             isNew = false;
@@ -196,14 +196,14 @@ public abstract class GETSYM {
                         System.exit(1);
                     } else if (isNew && symTable.get(sym) == null) {
                         if (isConst) {
-                            IO.writeToFile(sym + ":标识符const");
-                            symTable.put(sym, sym + ":标识符const");
+                            IO.writeToFile(sym + ":const");
+                            symTable.put(sym, sym + ":const");
                         } else if (isVar) {
-                            IO.writeToFile(sym + ":标识符var");
-                            symTable.put(sym, sym + ":标识符var");
+                            IO.writeToFile(sym + ":var");
+                            symTable.put(sym, sym + ":var");
                         } else if (isPro) {
-                            IO.writeToFile(sym + ":标识符procedure");
-                            symTable.put(sym, sym + ":标识符procedure");
+                            IO.writeToFile(sym + ":procedure");
+                            symTable.put(sym, sym + ":procedure");
                         }
                         if (str.charAt(i) == ';') {
                             isNew = false;

@@ -21,7 +21,7 @@ public class IO {
 
 
     public static void writeToFile(String str) throws IOException {
-        FileWriter fw = new FileWriter("code/output", true);
+        FileWriter fw = new FileWriter("code/compile", true);
         //将这个普通的FileWriter对象传递给BufferedWriter构造方法即可
         BufferedWriter bw = new BufferedWriter(fw);
         //后面bw的时候和fw没有区别
