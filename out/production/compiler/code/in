@@ -1,16 +1,11 @@
-const a=36;
-var c,d,k;
+const a=10,c=20;
+const b=20;
+var d;
+var e,f,g,h;
 procedure p;
-procedure f;
+     begin
+          c:=b+a
+     end;
 begin
-var g;
-g:=1234567890000000;
-write(g);
-write(k);
-end;
-begin
-read(c,d);
-if c<=d then c:=a;
-write(c,d);
-call p;
-    end.
+     call p
+end.
