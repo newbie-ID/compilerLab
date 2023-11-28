@@ -4,7 +4,8 @@ var d;
 var e,f,g,h;
 procedure p;
      begin
-          c:=b+a
+          if a > b
+          then d := a
      end;
 begin
      call p

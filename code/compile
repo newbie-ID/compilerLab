@@ -28,10 +28,13 @@ proceduresym
 p:procedure
 ;
 beginsym
-c:const
-:=
+ifsym
+a:const
+>
 b:const
-+
+thensym
+d:var
+:=
 a:const
 endsym
 ;

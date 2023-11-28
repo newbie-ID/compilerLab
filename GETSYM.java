@@ -9,6 +9,8 @@ public abstract class GETSYM {
         SYM.put(":=", ":=");
         SYM.put(">=", ">=");
         SYM.put("<=", "<=");
+        SYM.put(">", ">");
+        SYM.put("<", "<");
         SYM.put("==", "==");
         SYM.put("-", "-");
         SYM.put("*", "*");
