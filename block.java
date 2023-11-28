@@ -68,6 +68,7 @@ public class block {
             if (i == line) {
                 line++;
                 SYM = str;
+                if (SYM == null) SYM = ".";
                 return;
             }
         }
@@ -191,9 +192,13 @@ public class block {
             code[cx1][2] = String.valueOf(cx);
         } else if (SYM.equals("writesym")) {
             getLine(); // 左括号
+            getLine();
             doException(ptx, lev);
             gen("opr", "0", "14"); // 输出栈顶的值
             getLine(); // 下一个
+            if (SYM.equals(";")) getLine();
+            if (SYM.equals("endsym")) getLine();
+            else statement(ptx, lev);
         } else if (SYM.equals("readsym")) {
             getLine(); // 左括号
             getLine(); // 变量名
@@ -202,6 +207,9 @@ public class block {
             gen("sto", String.valueOf(lev - Integer.parseInt(table[i][3])), table[i][4]); // 读入
             getLine(); // 右括号
             getLine(); // 下一个
+            if (SYM.equals(";")) getLine();
+            if (SYM.equals("endsym")) getLine();
+            else statement(ptx, lev);
         }
     }
 
