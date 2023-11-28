@@ -1,11 +1,10 @@
-const a=10,c=20;
-const b=20;
-var d;
-var e,f,g,h;
+const a=1,b=1;
+var c;
 procedure p;
-     begin
-          c:=b+a
-     end;
 begin
-     call p
-end.
+	c:=b+a
+end;
+begin
+	call p;
+	write(c);
+end .

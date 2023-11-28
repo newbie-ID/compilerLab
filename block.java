@@ -1,7 +1,8 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Pattern;
 
 /**
  * @Auther: XuZH
@@ -14,7 +15,7 @@ public class block {
     public static String SYM = null;
     public static int cx = 0;
     public static String code[][] = new String[200][3];
-    public static String table[][] = new String[200][6]; // 名字 类型 数值 所在层 地址 大小
+    public static String table[][] = new String[200][6]; // 0名字 1类型 2数值 3所在层 4地址 5大小
 
     public static void gen(String str, String y, String z) {
         code[cx][0] = str;
@@ -83,7 +84,7 @@ public class block {
 
         // 0名字 1类型 2数值 3所在层 4地址 5大小
         table[tx.get()][4] = String.valueOf(cx);
-        gen("JMP", "0", "0");
+        gen("jmp", "0", "0");
 
         do {
             // 常量
@@ -134,7 +135,7 @@ public class block {
         table[tx0.get()][4] = "" + cx;
         table[tx0.get()][5] = "" + dx.get();
         cx0 = cx;
-        gen("inte", "0", "" + dx.get());
+        gen("int", "0", "" + dx.get());
         // todo
         // 输出名字表
         statement(tx, lev);
@@ -155,11 +156,15 @@ public class block {
         if (SYM.contains(":")) {
             i = findTableIndex(ptx);
             getLine(); //取符号 :=
+            getLine(); //做准备
             doException(ptx, lev);
+            gen("sto", String.valueOf(lev - Integer.parseInt(table[i][3])), table[i][4]);
         } else if (SYM.equals("beginsym")) {
             getLine();
             statement(ptx, lev);
             getLine();
+            if (SYM.equals("endsym")) getLine();
+            else statement(ptx, lev);
         } else if (SYM.equals("callsym")) {
             getLine(); // 程序名
             i = findTableIndex(ptx);
@@ -168,6 +173,7 @@ public class block {
             getLine(); // 分号
         } else if (SYM.equals("whilesym")) {
             cx1 = cx;
+            getLine(); // 下一个
             doCondition(ptx, lev);
             cx2 = cx;
             gen("jpc", "0", "0");
@@ -176,6 +182,7 @@ public class block {
             gen("jmp", "0", String.valueOf(cx1));
             code[cx2][2] = String.valueOf(cx);
         } else if (SYM.equals("ifsym")) {
+            getLine();
             doCondition(ptx, lev); // 条件
             getLine(); // then
             cx1 = cx;
@@ -198,24 +205,92 @@ public class block {
         }
     }
 
-    private static void doCondition(AtomicInteger ptx, int lev) throws Exception{
-        String key[] = {"beginsym", "callsym", "whilesym", "ifsym", "writesym", "readsym", "endsym", ")","thensym"};
-        String str = "";
-        do {
+    private static void doCondition(AtomicInteger ptx, int lev) throws Exception {
+        String relop;
+
+        if (SYM.equals("oddsym")) {
+            // 处理odd
             getLine();
-            str += SYM;
-        } while (!Arrays.asList(key).contains(SYM));
-        System.out.println(str);
+            doException(ptx, lev);
+            gen("opr", "0", "6");
+        } else {
+            doException(ptx, lev); // 处理表达式
+            relop = SYM;
+            getLine();
+            doException(ptx, lev);
+            if (relop.equals("=")) gen("opr", "0", "8");
+            else if (relop.equals("!=")) gen("opr", "0", "9");
+            else if (relop.equals("<")) gen("opr", "0", "10");
+            else if (relop.equals(">=")) gen("opr", "0", "11");
+            else if (relop.equals(">")) gen("opr", "0", "12");
+            else if (relop.equals("<=")) gen("opr", "0", "13");
+        }
     }
 
     private static void doException(AtomicInteger ptx, int lev) throws Exception {
-        String key[] = {"beginsym", "callsym", "whilesym", "ifsym", "writesym", "readsym", "endsym", ")","thensym"};
-        String str = "";
-        do {
+        String addop;
+        // +-号开头
+        if (SYM.equals("+") || SYM.equals("-")) {
+            addop = SYM;
             getLine();
-            str += SYM;
-        } while (!Arrays.asList(key).contains(SYM));
-        System.out.println(str);
+            term(ptx, lev);
+            if (addop.equals("-")) gen("opr", "0", "1");
+        } else {
+            // 加减
+            term(ptx, lev);
+        }
+
+        while (SYM.equals("+") || SYM.equals("-")) {
+            addop = SYM;
+            getLine();
+            term(ptx, lev);
+            if (addop.equals("+")) {
+                gen("opr", "0", "2");
+            } else {
+                gen("opr", "0", "3");
+            }
+        }
+
+    }
+
+    private static void term(AtomicInteger ptx, int lev) throws Exception {
+        String mulop;
+        factor(ptx, lev);
+        while (SYM.equals("*") || SYM.equals("/")) {
+            mulop = SYM;
+            getLine();
+            factor(ptx, lev);
+            if (mulop.equals("*")) gen("opr", "0", "4");
+            else gen("opr", "0", "5");
+        }
+    }
+
+    private static void factor(AtomicInteger ptx, int lev) throws Exception {
+        int i;
+        if (SYM.contains(":") && SYM.length() > 3) {
+            // 为变量或者常量
+            i = findTableIndex(ptx);
+            // 0名字 1类型 2数值 3所在层 4地址 5大小
+            //type 1常量 2变量 3程序
+            if (table[i][1].equals("1")) {
+                //常量
+                gen("lit", "0", table[i][2]);
+            } else {
+                gen("lod", String.valueOf(lev - Integer.parseInt(table[i][3])), table[i][4]);
+            }
+            getLine();
+        } else {
+            // 为数字
+            if (Pattern.compile("[0-9]*").matcher(SYM).matches()) {
+                gen("lit", "0", SYM);
+                getLine();
+            } else {
+                // 左括号 为表达式
+                getLine();
+                doException(ptx, lev);
+                getLine(); // 右括号 -> 下一个
+            }
+        }
     }
 
     private static int findTableIndex(AtomicInteger ptx) {
@@ -231,9 +306,14 @@ public class block {
     }
 
     public static void main(String[] args) throws Exception {
+        HashMap<String, String> symTable = new HashMap<String, String>();
+        GETSYM.initSYM(symTable);
+        GETSYM.getSym(symTable);
+
         AtomicInteger tx = new AtomicInteger();
         tx.set(0);
         block(0, tx);
 
+        System.out.println("hw");
     }
 }

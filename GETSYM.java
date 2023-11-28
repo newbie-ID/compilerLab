@@ -9,6 +9,7 @@ public abstract class GETSYM {
         SYM.put(":=", ":=");
         SYM.put(">=", ">=");
         SYM.put("<=", "<=");
+        SYM.put("!=", "!=");
         SYM.put(">", ">");
         SYM.put("<", "<");
         SYM.put("==", "==");
@@ -164,7 +165,9 @@ public abstract class GETSYM {
                     isSpace = false;
                     isChar = true;
                 } else if (isSym) {
-                    IO.writeToFile(symTable.get(sym));
+                    String s = symTable.get(sym);
+                    if (s!=null)
+                    IO.writeToFile(s);
                     sym = "" + str.charAt(i);
                     isSym = false;
                     isChar = true;

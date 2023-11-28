@@ -5,6 +5,5 @@ public class compile {
         HashMap<String, String> symTable = new HashMap<String, String>();
         GETSYM.initSYM(symTable);
         GETSYM.getSym(symTable);
-
     }
 }
