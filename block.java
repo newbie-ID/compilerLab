@@ -314,6 +314,8 @@ public class block {
         tx.set(0);
         block(0, tx);
 
-        System.out.println("hw");
+        machine.run(code);
+
+        System.out.println("运行结束");
     }
 }

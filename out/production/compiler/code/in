@@ -1,10 +1,7 @@
-const a=1,b=1;
-var c;
-procedure p;
+const i=1;
+var b,a;
 begin
-	c:=b+a
-end;
-begin
-	call p;
-	write(c);
+  write(i);
+  read(a);
+  write(a);
 end .
