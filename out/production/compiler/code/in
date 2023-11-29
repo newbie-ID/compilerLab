@@ -1,15 +1,4 @@
-const a=10;
-var b,c;
-procedure p;
+const a=10,b=20,c=0,d=5;
 begin
-  c:=b+a
-end;
-begin
-  read(b);
-  while b!=0 do
-    begin
-      call  p;
-      write(2*c);
-      read(b)
-     end
+    write (c*(a+b)+(a+b)*d)
 end .

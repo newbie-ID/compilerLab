@@ -73,7 +73,6 @@ public abstract class GETSYM {
         // 相当于GETCH
         for (int i = 0; i < str.length(); i++) {
             int state = GETSYM.type(str.charAt(i));
-
             if (state == 0) {
                 //读到了空格
                 if (isNum) {
@@ -166,8 +165,8 @@ public abstract class GETSYM {
                     isChar = true;
                 } else if (isSym) {
                     String s = symTable.get(sym);
-                    if (s!=null)
-                    IO.writeToFile(s);
+                    if (s != null)
+                        IO.writeToFile(s);
                     sym = "" + str.charAt(i);
                     isSym = false;
                     isChar = true;
@@ -189,7 +188,7 @@ public abstract class GETSYM {
                     isSpace = false;
                     isSym = true;
                 } else if (isSym) {
-                    if (str.charAt(i) == ';') {
+                    if (str.charAt(i) == ';' || str.charAt(i) == '(' || str.charAt(i) == ')' || str.charAt(i) == '*' || str.charAt(i) == '/' || str.charAt(i) == '+' || str.charAt(i) == '-') {
                         IO.writeToFile(symTable.get(sym));
                         sym = "" + str.charAt(i);
                     } else {

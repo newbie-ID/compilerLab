@@ -31,7 +31,6 @@ public class block {
         ptx.set(ptx.get() + 1);
 //        System.out.println(id + "=" + SYM);
         // type 1常量 2变量 3程序
-        // todo 查找是不是已经定义
         // 0名字 1类型 2数值 3所在层 4地址 5大小
         table[ptx.get()][0] = id[0];
         table[ptx.get()][1] = String.valueOf(1);
@@ -76,12 +75,10 @@ public class block {
 
     public static void block(int lev, AtomicInteger tx) throws Exception {
         getLine();
-        int i;
         AtomicInteger dx = new AtomicInteger();
         dx.set(3);/* 名字分配到的相对地址 前三行是规定的 从第四行开始写*/
         AtomicInteger tx0 = new AtomicInteger();
         tx0.set(tx.get());/* 保留初始tx */
-        int cx0; /* 保留初始cx */
 
         // 0名字 1类型 2数值 3所在层 4地址 5大小
         table[tx.get()][4] = String.valueOf(cx);
@@ -135,21 +132,10 @@ public class block {
         code[Integer.parseInt(table[tx0.get()][4])][2] = "" + cx;
         table[tx0.get()][4] = "" + cx;
         table[tx0.get()][5] = "" + dx.get();
-        cx0 = cx;
         gen("int", "0", "" + dx.get());
-        // todo
-        // 输出名字表
+        // 可输出名字表
         statement(tx, lev);
         gen("opr", "0", "0");
-//        listCode(cx0);
-    }
-
-    private static void listCode(int cx0) {
-        for (int i = cx0; i < cx; i++) {
-            System.out.println(i + " " + code[i][0] + " " + code[i][1] + " " + code[i][2]);
-            // todo
-            // 输入进文件
-        }
     }
 
     public static void statement(AtomicInteger ptx, int lev) throws Exception {
@@ -191,7 +177,7 @@ public class block {
             statement(ptx, lev);
             code[cx1][2] = String.valueOf(cx);
         } else if (SYM.equals("writesym")) {
-            getLine(); // 左括号
+            if (SYM.equals("(")) getLine(); // 左括号
             getLine();
             doException(ptx, lev);
             gen("opr", "0", "14"); // 输出栈顶的值

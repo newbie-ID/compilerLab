@@ -16,6 +16,7 @@ public class IO {
             str = str.concat(temp + " ");
             temp = bf.readLine();
         }
+//        System.out.println(str);
         return str;
     }
 

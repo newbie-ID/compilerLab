@@ -93,7 +93,7 @@ public class machine {
                             t--;
                             break;
                         case 16:
-                            System.out.println("请输入：");
+                            System.out.print("请输入：");
                             Scanner sc = new Scanner(System.in);
                             int k = sc.nextInt();
                             stack[t++] = k;
@@ -135,7 +135,7 @@ public class machine {
         } while (p != 0);
     }
 
-    //求l层基址
+    //求level层基址
     private static int base(int level, int[] stack, int b) {
         int b1 = b;
         while (level > 0) {
