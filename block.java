@@ -177,8 +177,8 @@ public class block {
             statement(ptx, lev);
             code[cx1][2] = String.valueOf(cx);
         } else if (SYM.equals("writesym")) {
-            if (SYM.equals("(")) getLine(); // 左括号
             getLine();
+            if (SYM.equals("(")) getLine(); // 左括号
             doException(ptx, lev);
             gen("opr", "0", "14"); // 输出栈顶的值
             getLine(); // 下一个

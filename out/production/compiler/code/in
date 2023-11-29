@@ -1,4 +1,15 @@
 const a=10,b=20,c=0,d=5;
+var e;
 begin
-    write (c*(a+b)+(a+b)*d)
+    read(e)
+    while e=0 do
+        begin
+            read(e)
+            if e!= 0 do
+                begin
+                    write ((c*(a+b)+(a+b)*d)/e)
+                end;
+            write(e)
+        end;
+    write(e)
 end .
